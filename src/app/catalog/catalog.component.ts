@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { IProduct } from './product.model';
-import { CartService } from '../cart.service';
+import { CartService } from '../cart/cart.service';
 import { ProductService } from './product.service';
 
 @Component({
@@ -10,26 +10,28 @@ import { ProductService } from './product.service';
 })
 export class CatalogComponent {
   products: any;
-  filterBy: string = '';
+  filter: string = '';
 
   constructor(
-    private cartService: CartService,
-    private productService: ProductService
-  ) {}
+    private cartSvc: CartService,
+    private productSvc: ProductService
+  ) { }
 
   ngOnInit() {
-    this.productService
-      .getProducts()
-      .subscribe((resultData) => (this.products = resultData));
+    this.productSvc.getProducts().subscribe((products) => {
+      this.products = products;
+    });
   }
 
-  filtredProducts(): IProduct[] {
-    return this.filterBy === ''
+  addToCart(product: IProduct) {
+    this.cartSvc.add(product);
+  }
+
+  getFilteredProducts() {
+    return this.filter === ''
       ? this.products
-      : this.products.filter((p: any) => p.category === this.filterBy);
-  }
-
-  addToCart(prd: IProduct) {
-    this.cartService.add(prd);
+      : this.products.filter(
+        (product: any) => product.category === this.filter
+      );
   }
 }
