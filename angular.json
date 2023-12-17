@@ -63,7 +63,8 @@
               "browserTarget": "AngualrFandamentalsPluralsight:build:production"
             },
             "development": {
-              "browserTarget": "AngualrFandamentalsPluralsight:build:development"
+              "browserTarget": "AngualrFandamentalsPluralsight:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
